@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head><script src='../forge/app_config.js'></script><script src='../forge/all.js'></script>
+		<meta charset="utf-8">
+		<script src="js/jquery-2.0.0.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script src="js/main.js"></script>
+		<link href="css/bootstrap.css" rel="stylesheet">
+		<style type="text/css">
+			.container-narrow {
+				margin: 0 auto;
+				max-width: 700px;
+				padding: 20px;
+			}
+			.container-narrow > hr {
+				margin: 30px 0;
+			}
+
+			.jumbotron {
+				margin: 60px 0;
+				text-align: center;
+			}
+			.jumbotron h1 {
+				font-size: 50px;
+				line-height: 1;
+			}
+
+			p {
+				font-size: 1.2em;
+			}
+		</style>
+		<script src="https://da189i1jfloii.cloudfront.net/js/kinvey-triggerio-0.9.14.min.js"></script>
+		<script>
+		window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || document.write('<script src="js\/IndexedDBShim.min.js"><\/script>');
+		</script>
+
+		<script type="text/javascript">
+			forge.logging.info("Initializing Kinvey.");
+			Kinvey.init({
+			    'appKey': 'kid_TeuFP7irLM',
+			    'appSecret': '18040ec8b39846c0a2aabf83981e6153',
+			    sync: true
+			});
+
+			forge.logging.info("Sync: Configuring");
+			Kinvey.Sync.configure({
+			    start: function() {
+			    	forge.logging.info("Sync: Starting");
+
+			    },
+			    success: function(status) {
+			    	forge.logging.info("Sync: Success");
+			    },
+			    error: function(e) {
+			    	forge.logging.info("Sync: Error");
+			    	forge.logging.info(e);			    		
+			    }
+			});
+
+
+			forge.logging.info("Pinging Kinvey")
+			Kinvey.ping({
+			  success: function(response) {
+			    forge.logging.info('Kinvey Ping Success. Kinvey Service is alive, version: ' + response.version + ', response: ' + response.kinvey);
+			  },
+			  error: function(error) {
+			    forge.logging.info('Kinvey Ping Failed. Response: ' + error.description);
+			  }
+			});
+
+			/*
+			Kinvey.User.create({
+			    username: 'zach',
+			    password: 'secret',
+			    name: 'Zach Buckner'
+			}, {
+			    success: function(user) {
+			        forge.logging.info("Created user");
+			    },
+			    error: function(e) {
+			    	forge.logging.info("User creation failed")
+			    }
+			});
+			*/
+			var orders = 0;
+
+			var user = new Kinvey.User();
+			user.login('zach', 'secret', {
+			    error: function(e) {
+			    	forge.logging.error('Could not log in');
+			    },
+			    success: function(i) {
+
+					var Order = Kinvey.Entity.extend({
+					    // Overwrite the constructor to automatically link all instances to the events collection.
+					    constructor: function(attributes) {
+					        Kinvey.Entity.prototype.constructor.call(this, attributes, 'Orders');
+					    },
+					    // Returns the location of the event.
+					    getLocation: function() {
+					        return this.get('Location');
+					    }
+					});
+
+					var OrderCollection = Kinvey.Collection.extend({
+					    // Set the entity class.
+					    entity: Order,
+					    // Overwrite the constructor to automatically link all instances to the events collection.
+					    constructor: function(options) {
+					        Kinvey.Collection.prototype.constructor.call(this, 'Orders', options);
+					    }
+					});
+					var oc = new OrderCollection({store: 'offline'});
+
+					var q = new Kinvey.Query();
+					q.on('Location').equal("Boar's Head");
+					oc.setQuery(q);
+
+					oc.fetch({
+					    success: function(list) {
+					        forge.logging.info("Worked");
+					        orders = list;
+					    },
+					    error: function(e) {
+					        forge.logging.info("Failed");
+					        forge.logging.info(e);
+					    }
+					});
+			    }
+			});
+
+			$('#modify').click(function() {
+				alert("Yep!");
+
+			});
+
+
+		</script>
+	</head>
+	<body>
+		<div class="navbar navbar-static-top navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="brand" href="#">Example app</a>
+				</div>
+			</div>
+		</div>
+		<div class="container-narrow">
+			<div class="jumbotron">
+				<h1>Hello, world!</h1>
+				<p class="lead">Congratulations on creating a new Trigger.io App.</p>
+				<p class="lead">This is a simple example project to help you get started, you can either edit this file, or replace it entirely with your own code.</p>
+			</div>
+			<hr>
+			<div class="row-fluid">
+				<div class="span12">
+					<h4>Make a modification</h4>
+					<p>Click <a href="#" id="modify">here</a> to make a modification.</p>
+			</div>
+			</div>
+		</div> 
+	</body>
+</html>

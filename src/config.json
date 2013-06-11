@@ -1,0 +1,27 @@
+{
+	"config_version": "2",
+	"name": "IngredientsApp",
+	"author": "web@zachbuckner.com",
+	"version": "0.1",
+	"platform_version": "v1.4",
+	"description": "An empty app created by default",
+	"modules": {
+		"logging": {
+			"level": "DEBUG"
+		},
+		"contact": true,
+		"file": true,
+		"is": true,
+		"media": true,
+		"prefs": true,
+		"request": {
+			"permissions": [
+				"http://*/*",
+				"https://*/*"
+			]
+		},
+		"tools": true,
+		"reload": true
+	},
+	"uuid": "2878c058ca7911e2903e12313d00dc45"
+}

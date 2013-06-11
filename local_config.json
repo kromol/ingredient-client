@@ -1,0 +1,15 @@
+{
+	"general": {},
+	"ios": {
+		"profiles": {
+			"DEFAULT": {}
+		},
+		"simulatorsdk": "6.1",
+		"simulatorfamily": "ipad"
+	},
+	"android": {
+		"profiles": {
+			"DEFAULT": {}
+		}
+	}
+}

@@ -1,0 +1,63 @@
+{
+    "author": "web@zachbuckner.com", 
+    "config_hash": "c0a1a29df42d0fb262d987a3a41872b83d1c2f2a", 
+    "config_version": "4", 
+    "core": {
+        "android": {
+            "package_name": "io.trigger.forge2878c058ca7911e2903e12313d00dc45"
+        }, 
+        "firefox": {
+            "package_name": "2878c058ca7911e2903e12313d00dc45"
+        }, 
+        "general": {
+            "reload": true
+        }, 
+        "ie": {
+            "package_name": "{B275A723-9E66-FC35-0CC4-DBFE7D6AC4BD}"
+        }, 
+        "ios": {
+            "package_name": "io.trigger.forge2878c058ca7911e2903e12313d00dc45"
+        }, 
+        "osx": {
+            "package_name": "io.trigger.forge2878c058ca7911e2903e12313d00dc45"
+        }, 
+        "safari": {
+            "package_name": "forge.safari.ingredientsapp2878c058ca7911e2903e12313d00dc45"
+        }
+    }, 
+    "description": "An empty app created by default", 
+    "json_safe_name": "IngredientsApp", 
+    "logging": {
+        "level": "DEBUG"
+    }, 
+    "name": "IngredientsApp", 
+    "package_name": "ingredientsapp2878c058ca7911e2903e12313d00dc45", 
+    "platform_version": "v1.4.47", 
+    "plugins": {
+        "contact": {
+            "hash": "notahash"
+        }, 
+        "file": {
+            "hash": "notahash"
+        }, 
+        "media": {
+            "hash": "notahash"
+        }, 
+        "prefs": {
+            "hash": "notahash"
+        }, 
+        "request": {
+            "config": {
+                "permissions": [
+                    "http://*/*", 
+                    "https://*/*"
+                ]
+            }, 
+            "hash": "notahash"
+        }
+    }, 
+    "trigger_domain": "https://trigger.io", 
+    "uuid": "2878c058ca7911e2903e12313d00dc45", 
+    "version": "0.1", 
+    "xml_safe_name": "IngredientsApp"
+}

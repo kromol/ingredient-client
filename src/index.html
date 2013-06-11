@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link href="css/bootstrap.css" rel="stylesheet">
+		<style type="text/css">
+			.container-narrow {
+				margin: 0 auto;
+				max-width: 700px;
+				padding: 20px;
+			}
+			.container-narrow > hr {
+				margin: 30px 0;
+			}
+
+			.status p {
+				color: grey;
+				text-align: right;
+			}
+
+			p {
+				font-size: 1.2em;
+			}
+
+			textarea {
+				width: 100%;
+			}
+
+			input {
+				width: 100%;
+			}
+
+			.loading {
+			  opacity: .25
+			}
+
+		</style>
+	</head>
+	<body>
+		<div class="navbar navbar-static-top navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="brand" href="#">Relay Ingredients App</a>
+				</div>
+			</div>
+		</div>
+		<div class="container-narrow">
+
+			<div class="row">
+			  <div class="span7 offset1">
+				<input id="upc" rows="1" ></input>
+			  </div>
+			</div>
+			<div class="row">
+			  <div class="span7 offset1">
+				<input id="addIngredient" rows="1" ></input>
+			  </div>
+			</div>
+			<div class="row">
+			  <div class="span7 offset1">
+				<textarea id="ingredients" class="loading" rows="10"></textarea>
+			  </div>
+			</div>
+			<div class="row">
+				<div class="span7 offset1 status">
+				<p id="status"></p>
+				</div>
+			</div>
+		</div>
+		<script src="js/jquery-2.0.0.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script src="https://da189i1jfloii.cloudfront.net/js/kinvey-triggerio-0.9.14.js"></script>
+		<script>
+		window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || document.write('<script src="js\/IndexedDBShim.min.js"><\/script>');
+		</script>
+
+		<script src="js/main.js"></script>
+	</body>
+</html>

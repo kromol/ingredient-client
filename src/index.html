@@ -29,11 +29,6 @@
 			input {
 				width: 100%;
 			}
-
-			.loading {
-			  opacity: .25
-			}
-
 		</style>
 	</head>
 	<body>
@@ -48,23 +43,28 @@
 
 			<div class="row">
 			  <div class="span7 offset1">
-				<input id="upc" rows="1" ></input>
+				  <input id="upc" type="text" placeholder="UPC to Lookup"></input>
+			  </div>
+			</div>
+
+			<div class="row">
+			  <div class="span7 offset1">
+				<input id="addIngredient" type="text" placeholder="Ingredient to Add" ></input>
 			  </div>
 			</div>
 			<div class="row">
 			  <div class="span7 offset1">
-				<input id="addIngredient" rows="1" ></input>
+				<textarea id="ingredients" rows="10" placeholder="Ingredient List"></textarea>
 			  </div>
 			</div>
 			<div class="row">
-			  <div class="span7 offset1">
-				<textarea id="ingredients" class="loading" rows="10"></textarea>
-			  </div>
-			</div>
-			<div class="row">
-				<div class="span7 offset1 status">
-				<p id="status"></p>
+				<div class="span6 offset1 status">
+					<p id="status"></p>
 				</div>
+				<div class="span1">
+					<button id="save" class="btn">Save</button>
+				</div>
+
 			</div>
 		</div>
 		<script src="js/jquery-2.0.0.js"></script>

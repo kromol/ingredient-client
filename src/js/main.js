@@ -12,7 +12,7 @@ var getAutocomplete = function() {
 	    url: 'https://baas.kinvey.com/rpc/kid_TeuFP7irLM/custom/allIngredients',
 	    type: 'post',
 	    headers: {
-	        Authorization: 'Basic a2lkX1RldUZQN2lyTE06YjVmZmJiMzljNmVlNGFlOTgyNWZlYmU2ZjMwYWZlM2I=',   //If your header name has spaces or any other char not appropriate
+	        Authorization: 'Basic ' + btoa('zach:secret'),
 	        "X-Kinvey-API-Version": 2
 	    },
 	    dataType: 'json',
@@ -38,6 +38,7 @@ var getProduct = function(upc) {
 
 				$('#status').text('UPC was not found.  Created a new product.');
 				$('#ingredients').val('');
+				$('#addIngredient').focus();
 
 			// Found an Existing Product
 	        } else if (list.length == 1) {
@@ -51,6 +52,7 @@ var getProduct = function(upc) {
 					if (i < ing.length - 1) iText = iText + ', ';
 				}
 				$('#ingredients').val(iText);
+				$('#addIngredient').focus();
 
 			// Found Multiple Products
 	        } else {
@@ -99,6 +101,7 @@ var saveProduct = function() {
 	    		ingsOut[i] = ingredientCache[ings[i]];
 	    		if (ingsOut[i] == null) {
 	    			ingsOut[i] = new Kinvey.Entity({Name : ings[i]}, 'Ingredients');
+	    			autocomplete.push(ings[i]);
 	    		}
 	    	}
 	    	currentProduct.set('Ingredients', ingsOut);
@@ -186,6 +189,12 @@ $(document).ready(function() {
     		$('#addIngredient').val('');
     	}
     });
+
+	$('#save').click(function(){
+		saveProduct();
+		$('#upc').focus();
+		$('#upc').select();	
+	});
 
 
 	info("Initializing Kinvey.");

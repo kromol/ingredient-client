@@ -36,11 +36,33 @@
 			<div class="navbar-inner">
 				<div class="container-fluid">
 					<a class="brand" href="#">Relay Ingredients App</a>
+					<ul class="nav" style="display: none" id="userinfo">
+						<li><a href="#" id="username-lbl"></a></li>
+						<li id="logout-btn"><a href="#">Logout</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
-		<div class="container-narrow">
-
+		<div id="login-block" class="container-narrow hide">
+			<div class="row" id="vaildation-message">
+				<div class="span4 offset2">
+					<label>Username</label>
+					<input id="login-inp" class="input-large" type="text" placeholder="Enter your username"></input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span4 offset2">
+					<label>Password</label>
+					<input id="password-inp" class="input-large" type="password" placeholder="Enter your password"></input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span4 offset2">
+					<button class="btn btn-success" type="button" id="login-btn">Login</button>
+				</div>
+			</div>
+		</div>
+		<div id="default-block" class="container-narrow hide">
 			<div class="row">
 			  <div class="span7 offset1">
 				  <input id="upc" type="text" placeholder="UPC to Lookup"></input>

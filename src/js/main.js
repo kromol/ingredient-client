@@ -2,6 +2,8 @@ var products = new Kinvey.Collection('Products');
 var ingredients = new Kinvey.Collection('Ingredients');
 var autocomplete = [];
 var currentProduct = {};
+var isUserLoggedIn = false,
+	currentUser;
 
 var info = function(x) {
 	console.log(x);
@@ -29,12 +31,12 @@ var getProduct = function(upc) {
 	products.setQuery(q);
 	products.fetch({
 		resolve: ['Ingredients'],
-	    success: function(list) {
+		success: function(list) {
 
-	    	// New Product
-	        if (list.length == 0) {
-	        	currentProduct = new Kinvey.Entity({}, 'Products');
-	        	currentProduct.set('UPC', upc);
+			// New Product
+			if (list.length == 0) {
+				currentProduct = new Kinvey.Entity({}, 'Products');
+				currentProduct.set('UPC', upc);
 
 				$('#status').text('UPC was not found.  Created a new product.');
 				$('#ingredients').val('');
@@ -123,16 +125,27 @@ var saveProduct = function() {
 	});
 };
 
-var login = function() {
+var login = function(username, password) {
 	info("Logging in");
 	var user = new Kinvey.User();
-	user.login('zach', 'secret', {
+	user.login(username, password, {
 	    error: function(e) {
 	    	info('Could not log in');
+			info(e);
+			$("#password-inp").val('');
+			$("#vaildation-message").before(getErrorMessage('Validation error(s)', [e.description]));
 	    },
 	    success: function(i) {
+			currentUser = Kinvey.getCurrentUser();
 	    	info('Logged in');
 
+			$("#password-inp").val('');
+			$("#login-inp").val('');
+			$("#login-block").addClass("hide");
+			$("#default-block").removeClass("hide");
+			$("#username-lbl").html("Hello, " + currentUser.attr.name);
+			$("#userinfo").css("display", "block");
+			
 	    	info("Sync: Configuring");
 			Kinvey.Sync.configure({
 			    start: function() {
@@ -145,7 +158,7 @@ var login = function() {
 			    },
 			    error: function(e) {
 			    	info("Sync: Error");
-			    	info(e);			    		
+			    	info(e);
 			    }
 			});
 
@@ -162,12 +175,54 @@ var login = function() {
 	});
 };
 
+var getErrorMessage = function (label, errors) {
+	var error_html = '<div class="alert alert-error">'
+					+ '<button type="button" class="close" data-dismiss="alert">&times</button>'
+					+ '<strong>' + label + '</strong>',
+		errors_count = errors.length,
+		i = 0;
+
+	for (; i < errors_count; i++) {
+		error_html += '<br />' + errors[i];
+	}
+
+	return error_html;
+};
+
 var sync = function() {
 	Kinvey.Sync.offline();
 	Kinvey.Sync.online();
 }
 
 $(document).ready(function() {
+
+	$("#login-btn").on("click", function (e) {
+		var username = $("#login-inp").val(),
+			password = $("#password-inp").val(),
+			errors = [];
+		if ((username === '') || (password === '')) {
+			username === '' && (errors.push('Username cannot be empty.'));
+			password === '' && (errors.push('Password cannot be empty.'));
+			$("#vaildation-message").before(getErrorMessage('Validation error(s)', errors));
+			return false;
+		}
+		login(username, password);
+	});
+	
+	$("#logout-btn").on('click', function () {
+		currentUser.logout({
+			success: function () {
+				info('Logout successfully');
+				$("#login-block").removeClass("hide");
+				$("#default-block").addClass("hide");
+				$("#userinfo").css("display", "none");
+				currentUser = null;
+			},
+			error: function (e) {
+				info('An error occured: ' + e.description);
+			}
+		});
+	});
  
     $( "#addIngredient" ).typeahead({source : function(query, process) {
     	process(autocomplete);
@@ -198,12 +253,33 @@ $(document).ready(function() {
 
 
 	info("Initializing Kinvey.");
+	
 	Kinvey.init({
 	    'appKey': 'kid_TeuFP7irLM',
 	    'appSecret': '18040ec8b39846c0a2aabf83981e6153',
 	    sync: true
 	});
+	
+	Kinvey.ping({
+	  success: function(response) {
+		info('Kinvey Ping Success. Kinvey Service is alive, version: ' + response.version + ', response: ' + response.kinvey);
+	  },
+	  error: function(error) {
+		info('Kinvey Ping Failed. Response: ' + error.description);
+	  }
+	});	
 
+	currentUser = Kinvey.getCurrentUser();
+	if (currentUser) {
+		$("#default-block").removeClass("hide");
+		$("#username-lbl").html("Hello, " + currentUser.attr.name);
+		$("#userinfo").css("display", "block");
+	} else {
+		$("#login-block").removeClass("hide");
+	}
+
+	
+	info("After init");
 	getAutocomplete();
 
 });

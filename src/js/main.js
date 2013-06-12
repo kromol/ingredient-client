@@ -2,8 +2,7 @@ var products = new Kinvey.Collection('Products');
 var ingredients = new Kinvey.Collection('Ingredients');
 var autocomplete = [];
 var currentProduct = {};
-var isUserLoggedIn = false,
-	currentUser;
+var currentUser;
 
 var info = function(x) {
 	console.log(x);
